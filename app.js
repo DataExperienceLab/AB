@@ -6,6 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var Web3 = require("web3")
 
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+
 web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
 web3.net.peerCount //verify that the node is connnected to at least 1 peer, if not: panic
 web3.eth.syncing // if result = "false" we are good to go; if not: you can still make the calls but the blockchain won't be up to date// 
@@ -34,7 +39,6 @@ console.log(MotorAddress)
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -85,7 +89,16 @@ app.use(function(err, req, res, next) {
 
 
 
-
 app.listen(80, function () {
   console.log('Ca marche?')
 })
+
+
+
+io.on('connection', function (socket) {
+  socket.emit('message', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+
+});
+});

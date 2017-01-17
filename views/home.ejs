@@ -1,3 +1,18 @@
 <h1>EY node test</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+<script>
+$(function() { 
+  var socket = io.connect("http://13.81.119.85");
+  console.log(socket)
+ socket.on('connect', function(){alert("Connected")});
+  socket.on('error', function (reason){
+  console.error('Unable to connect Socket.IO', reason);
+
+})
+});
+ 
+</script>
 
 <p>In<%= title %></p>
